@@ -1,8 +1,4 @@
-#include "Audio.h"
-#include "stm32f4xx_conf.h"
-#include "stm32f4xx.h"
-
-#include <stdlib.h>
+#include "config.h"
 
 static void WriteRegister(uint8_t address, uint8_t value);
 static void StartAudioDMAAndRequestBuffers();

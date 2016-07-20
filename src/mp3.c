@@ -1,9 +1,4 @@
-#include "mp3.h"
-#include "core_cm4.h"
-#include "stm32f4xx_conf.h"
-#include "mp3dec.h"
-#include "Audio.h"
-#include <string.h>
+#include "config.h"
 
 // Macros
 #define f_tell(fp)		((fp)->fptr)
@@ -36,7 +31,7 @@ static FRESULT play_directory (const char* path, unsigned char seek);
  * Main function. Called when startup code is done with
  * copying memory and setting up clocks.
  */
-void mp3_play(void) {
+void mp3_process(void) {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 
 	// SysTick interrupt each 1ms
