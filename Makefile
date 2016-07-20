@@ -4,16 +4,19 @@ PROJ_NAME=stm32F4_usb_mp3
 # Sources
 SRCS = main.c stm32f4xx_it.c system_stm32f4xx.c syscalls.c
 
+# FreeRTOS
+FREERTOS_SRC = ./lib/FreeRTOS
+FREERTOS_INC = $(FREERTOS_SRC)/include/  
+FREERTOS_PORT_INC = $(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/
+
 # Audio
 SRCS += Audio.c mp3.c
 
 # USB
 SRCS += usbh_usr.c usb_bsp.c
 
-# FreeRTOS
-FREERTOS_SRC = ./lib/FreeRTOS
-FREERTOS_INC = $(FREERTOS_SRC)/include/  
-FREERTOS_PORT_INC = $(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/
+# UART
+SRCS += serial.c
 ###################################################
 
 CC=arm-none-eabi-gcc
@@ -23,7 +26,6 @@ ARCH=CM4F
 
 CFLAGS  = -std=gnu99 -g -O2 -Wall -Tstm32_flash.ld
 CFLAGS += -mlittle-endian -mthumb -mthumb-interwork -nostartfiles -mcpu=cortex-m4
-
 CFLAGS += -fsingle-precision-constant -Wdouble-promotion
 CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=softfp
 
@@ -59,7 +61,10 @@ CFLAGS += -Ilib/helix/pub
 # add startup file to build
 SRCS += lib/startup_stm32f4xx.s ./lib/Utilities/STM32F4-Discovery/stm32f4_discovery.c \
 		$(FREERTOS_SRC)/tasks.c $(FREERTOS_SRC)/list.c $(FREERTOS_SRC)/portable/MemMang/heap_1.c \
-		$(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/port.c 
+		$(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/port.c \
+		$(FREERTOS_SRC)/croutine.c \
+		$(FREERTOS_SRC)/queue.c  \
+		$(FREERTOS_SRC)/timers.c 
 
 OBJS = $(SRCS:.c=.o)
 
