@@ -35,7 +35,7 @@ int main(void)
   	xTaskCreate(serial_task,
              (signed portCHAR *) "serial communication",
              1024 /* stack size */, NULL,
-             tskIDLE_PRIORITY + 5, NULL);
+             tskIDLE_PRIORITY + 3, NULL);
 
  	 vTaskStartScheduler();
   	return 0;
