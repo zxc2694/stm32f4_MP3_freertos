@@ -17,17 +17,28 @@ SRCS += usbh_usr.c usb_bsp.c
 
 # UART
 SRCS += serial.c
-###################################################
 
+#======================================================================#
+#Cross Compiler
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 SIZE=arm-none-eabi-size
 ARCH=CM4F
+#======================================================================#
+#Flags
+CFLAGS=-g -mlittle-endian -mthumb
+CFLAGS+=-mcpu=cortex-m4
+CFLAGS+=-mfpu=fpv4-sp-d16 -mfloat-abi=softfp
+CFLAGS+=-D USE_STDPERIPH_DRIVER
+CFLAGS+=-I./
 
-CFLAGS  = -std=gnu99 -g -O2 -Wall -Tstm32_flash.ld
-CFLAGS += -mlittle-endian -mthumb -mthumb-interwork -nostartfiles -mcpu=cortex-m4
-CFLAGS += -fsingle-precision-constant -Wdouble-promotion
-CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=softfp
+
+#stm32-flash
+CFLAGS+=-Wl,-T,stm32_flash.ld
+
+
+
+
 
 vpath %.c src
 vpath %.a lib
@@ -40,6 +51,7 @@ CFLAGS += -Ilib/Conf
 CFLAGS+=-I$(FREERTOS_INC)
 CFLAGS+=-I$(FREERTOS_PORT_INC)
 CFLAGS+=-I./lib/Utilities/STM32F4-Discovery
+CFLAGS+=-I./lib/common
 
 # Library paths
 LIBPATHS = -Llib/StdPeriph -Llib/USB_OTG
@@ -64,7 +76,9 @@ SRCS += lib/startup_stm32f4xx.s ./lib/Utilities/STM32F4-Discovery/stm32f4_discov
 		$(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/port.c \
 		$(FREERTOS_SRC)/croutine.c \
 		$(FREERTOS_SRC)/queue.c  \
-		$(FREERTOS_SRC)/timers.c 
+		$(FREERTOS_SRC)/timers.c  \
+		./lib/common/stdlib.c \
+		./lib/common/string.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -87,6 +101,10 @@ $(PROJ_NAME).elf: $(SRCS)
 
 flash:
 	st-flash write $(PROJ_NAME).bin 0x8000000
+
+screen:
+	echo sudo screen /dev/ttyUSB0 9600 
+
 clean:
 	rm -f *.o
 	rm -f $(PROJ_NAME).elf

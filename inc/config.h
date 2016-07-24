@@ -24,7 +24,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <ctype.h>
-#include "string.h"
+#include <string.h>
 
 //FatFS
 #include "diskio.h"
