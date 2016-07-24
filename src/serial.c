@@ -126,7 +126,7 @@ int puts_base(const char *msg)
 
 int Serial_printf(const char *format, ...)
 {
-/*	char str[128];
+	char str[128];
 	va_list para;
 	va_start(para, format);
 	int curr_pos = 0;
@@ -173,5 +173,5 @@ int Serial_printf(const char *format, ...)
 
 	va_end(para);
 	puts_base(str);
-	return 1;*/
+	return 1;
 }

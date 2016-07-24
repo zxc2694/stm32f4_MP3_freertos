@@ -267,13 +267,6 @@ void Delay(volatile uint32_t nTime) {
 }
 
 /*
- * Dummy function to avoid compiler error
- */
-void _init() {
-
-}
-
-/*
  * Taken from
  * http://www.mikrocontroller.net/topic/252319
  */
